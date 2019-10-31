@@ -9,3 +9,9 @@ class ProfileForm(forms.ModelForm):
         model=Profile
         fields=['bio','profile_picture'] 
         exclude=['user','projects','contact']  
+
+class NeighborForm(forms.ModelForm):
+    class Meta:
+        model = NeighbourHood
+        fields=['name','location','occupants']
+        # exclude=['user', ]

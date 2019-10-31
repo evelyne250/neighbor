@@ -11,6 +11,20 @@ def welcome(request):
     return render(request, 'welcome.html', {"date": date, "new": new})
 
 @login_required(login_url='/accounts/login/')
+def new_post(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = NeighborForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = current_user
+            post.save()
+        return redirect('welcome')
+
+    else:
+        form = NeighborForm()
+    return render(request, 'new_post.html', {"form": form})
+@login_required(login_url='/accounts/login/')
 def profile(request, username=None):
 	'''
 	Method that fetches a users profile page

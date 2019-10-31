@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class NeighbourHood(models.Model):
     name = models.CharField(max_length =30)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hood')
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hood')
     location = models.CharField(max_length =30)
     occupants = models.IntegerField()
 
