@@ -10,11 +10,22 @@ def welcome(request):
     new = NeighbourHood.objects.all()
     return render(request, 'welcome.html', {"date": date, "new": new})
 
+def create_hood(request):
+    if request.method == 'POST':
+        form = NeighborForm(request.POST, request.FILES)
+        if form.is_valid():
+            hood = form.save(commit=False)
+            hood.admin = request.user
+            hood.save()
+            return redirect('welcome')
+    else:
+        form = NeighborForm()
+    return render(request, 'hood.html', {'form': form})
 @login_required(login_url='/accounts/login/')
 def new_post(request):
     current_user = request.user
     if request.method == 'POST':
-        form = NeighborForm(request.POST, request.FILES)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = current_user
@@ -22,8 +33,26 @@ def new_post(request):
         return redirect('welcome')
 
     else:
-        form = NeighborForm()
+        form = PostForm()
     return render(request, 'new_post.html', {"form": form})
+
+# def single_hood(request, hood_id):
+#     hood = NeighbourHood.objects.get(id=hood_id)
+#     business = Business.objects.filter(neighbourhood=hood)
+#     posts = Post.objects.filter(hood=hood)
+#     if request.method == 'POST':
+#         form = BusinessForm(request.POST)
+#         if form.is_valid():
+#             b_form = form.save(commit=False)
+#             b_form.neighbourhood = hood
+#             b_form.user = request.user
+#             b_form.save()
+#             return redirect('single-hood', hood.id)
+#     else:
+#         form = BusinessForm()
+
+#     return render(request, 'single_hood.html', {'hood': hood,'business': business,'form': form,'posts': posts})
+
 @login_required(login_url='/accounts/login/')
 def profile(request, username=None):
 	'''

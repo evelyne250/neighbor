@@ -7,11 +7,20 @@ from django.contrib.auth.models import User
 class ProfileForm(forms.ModelForm):
     class Meta:
         model=Profile
-        fields=['bio','profile_picture'] 
-        exclude=['user','projects','contact']  
+        fields=['bio','profile_picture','contact'] 
+        exclude=['user']  
 
 class NeighborForm(forms.ModelForm):
     class Meta:
         model = NeighbourHood
-        fields=['name','location','occupants']
-        # exclude=['user', ]
+        exclude=['user']
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        exclude = ('user', 'hood')
+
+class BusinessForm(forms.ModelForm):
+    class Meta:
+        model = Business
+        exclude = ('user', 'neighbourhood')
