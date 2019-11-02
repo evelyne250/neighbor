@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.http  import HttpResponse
 import datetime as dt 
 from django.contrib.auth.decorators import login_required
@@ -9,7 +9,7 @@ def welcome(request):
     date = dt.date.today()
     new = NeighbourHood.objects.all()
     return render(request, 'welcome.html', {"date": date, "new": new})
-
+    
 def create_hood(request):
     if request.method == 'POST':
         form = NeighborForm(request.POST, request.FILES)
@@ -30,28 +30,41 @@ def new_post(request):
             post = form.save(commit=False)
             post.user = current_user
             post.save()
-        return redirect('welcome')
+        return redirect('new-post')
 
     else:
         form = PostForm()
     return render(request, 'new_post.html', {"form": form})
 
-def single_hood(request, hood_id):
-    hood = NeighbourHood.objects.get(id=hood_id)
-    business = Business.objects.filter(neighbourhood=hood)
-    posts = Post.objects.filter(hood=hood)
+@login_required(login_url='/accounts/login/')
+def new_business(request):
+    current_user = request.user
     if request.method == 'POST':
-        form = BusinessForm(request.POST)
+        form = BusinessForm(request.POST, request.FILES)
         if form.is_valid():
-            b_form = form.save(commit=False)
-            b_form.neighbourhood = hood
-            b_form.user = request.user
-            b_form.save()
-            return redirect('single-hood', hood.id)
+            bus = form.save(commit=False)
+            bus.user = current_user
+            bus.save()
+        return redirect('new-business')
+
     else:
         form = BusinessForm()
+    return render(request, 'new_business.html', {"form": form})
 
-    return render(request, 'single_hood.html', {'hood': hood,'business': business,'form': form,'posts': posts})
+
+def join_hood(request, id):
+    neighbourhood = get_object_or_404(NeighbourHood, id=id)
+    request.user.neighbourhood = neighbourhood
+    request.user.save()
+    return redirect('hood')
+
+
+def leave_hood(request, id):
+    hood = get_object_or_404(NeighbourHood, id=id)
+    request.user.neighbourhood = None
+    request.user.save()
+    return redirect('hood')
+
 
 @login_required(login_url='/accounts/login/')
 def profile(request, username=None):

@@ -16,8 +16,19 @@
       <p class="text-center"> {{ news_item.location }} </p>
       <p class="text-center"> {{ news_item.health_tell }} </p>
       <p class="text-center"> {{ news_item.police_number }} </p>
-    </div>
+      <a href="{%url 'new-post'%}">Post</a>
+     </div>
   </div>
+  {% if user.profile.neighbourhood %}
+  <li class="mb-4">
+      <a href="{% url 'single-hood' user.profile.neighbourhood.id %}">
+          <i class="fas fa-paper-plane"></i>&nbsp;
+          &nbsp;{{user.profile.neighbourhood.name}}
+      </a>
+  </li>
+
+  {% endif %}
+</ul>
   </div>
 
   {% empty %}
