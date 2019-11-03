@@ -5,6 +5,7 @@ class NeighbourHood(models.Model):
     name = models.CharField(max_length =30)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="neighbor")
     location = models.CharField(max_length =30)
+    cover = models.ImageField(upload_to='pic/')
     health_tell = models.IntegerField()
     police_number = models.IntegerField()
 
