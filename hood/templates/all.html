@@ -5,17 +5,25 @@
 {{block.super}}
 
 
-<div class="container">
+<div class="container" >
+        <button><a href="{%url 'new-post'%}">Post</a></button>
+    <br>
+    <br>
     <div class="row">
-       
-                {% for item in newpost%}
+                      {% for item in newpost%}
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
   
                         <div class="thumbnail">
                 <p  class="text-center" >{{item.title}}</p>
               <p class="text-center">{{item.post|truncatechars:30}}</p>
-        
-             
+              <hr>
+      {% for com in item.comment_set.all %}
+      <p>{{com.comment}}</p>
+      {% empty %}
+      {% endfor %}
+
+      <a href="{% url 'comment' item.id %}">Comment</a>
+      <br>
             </div>    
               </div>
             </div>

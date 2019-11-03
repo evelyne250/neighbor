@@ -94,3 +94,21 @@ def profile_edit(request):
     else:
         form=ProfileForm()
     return render(request,'profile_edit.html',{"form":form})
+
+@login_required(login_url='/accounts/login/')     
+def add_comment(request,post_id):
+    current_user=request.user
+    if request.method=='POST':
+        image_item=Post.objects.filter(id=post_id).first()
+
+    
+        form=CommentForm(request.POST,request.FILES)
+        if form.is_valid():
+            comment=form.save(commit=False)
+            comment.posted_by=current_user
+            comment.comment_image=image_item
+            comment.save()
+        return redirect('hood')
+    else:
+        form=CommentForm()
+    return render(request,'comment.html',{"form":form,"post_id":post_id})

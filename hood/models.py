@@ -33,6 +33,10 @@ class Post(models.Model):
     post = models.TextField()
     # user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='post_owner')
     # hood = models.ForeignKey(NeighbourHood, on_delete=models.CASCADE, related_name='hood_post')
+    @classmethod
+    def get_all_posts(cls):
+        posts=cls.objects.all().prefetch_related('comment_set')
+        return posts
 
 class Business(models.Model):
     name = models.CharField(max_length=120)
@@ -40,3 +44,10 @@ class Business(models.Model):
     description = models.TextField(blank=True)
     neighbourhood = models.ForeignKey(NeighbourHood, on_delete=models.CASCADE, related_name='business')
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='owner')
+
+class Comment(models.Model):
+    posted_by=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    comment_image=models.ForeignKey(Post,on_delete=models.CASCADE,null=True)
+    comment=models.CharField(max_length=20,null=True)
+    def __str__(self):
+        return self.posted_by

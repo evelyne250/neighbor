@@ -24,3 +24,8 @@ class BusinessForm(forms.ModelForm):
     class Meta:
         model = Business
         exclude = ('user', 'neighbourhood')
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model=Comment
+        exclude=['comment_image','posted_by','profile']

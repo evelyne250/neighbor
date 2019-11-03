@@ -9,6 +9,7 @@ urlpatterns=[
     url(r'join_hood/(\d+)', views.join_hood, name='join-hood'),
     url(r'leave_hood/(\d+)', views.leave_hood, name='leave-hood'),
     url(r'new-hood/', views.create_hood, name='new-hood'),
+    url(r'^comment/(\d+)', views.add_comment, name='comment'),
     url(r'^new/post$', views.new_post, name='new-post'),
     url(r'^new/business$', views.new_business, name='new_business'),
     # url(r'single_hood/(\d+)', views.single_hood, name='single-hood'),
