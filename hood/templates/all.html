@@ -7,7 +7,9 @@
 
 <div class="container" >
         <button><a href="{%url 'new-post'%}">Post</a></button>
-    <br>
+        <button><a href="{%url 'new-business'%}">Add Business</a></button>
+
+        <br>
     <br>
     <div class="row">
                       {% for item in newpost%}
@@ -19,14 +21,31 @@
               <hr>
       {% for com in item.comment_set.all %}
       <p>{{com.comment}}</p>
+      <p>{{com.title}}</p>
+      <p>{{com.post}}</p>
       {% empty %}
       {% endfor %}
 
       <a href="{% url 'comment' item.id %}">Comment</a>
       <br>
+      <hr>
+
             </div>    
               </div>
             </div>
         </div>
-        {% endfor %}
-        {% endblock %}
+        {% endfor %} 
+        <h1 class="text-center" >All Businesses</h1>
+        <div class="row">
+  
+             {% for item1 in business%}
+             <div class="col-md-4">
+                    <div class="thumbnail">
+             <p  class="text-center" >{{item1.name}}</p>
+             <p  class="text-center" >{{item1.email}}</p>
+             <p  class="text-center" >{{item1.description}}</p>  
+             {% endfor %} 
+            </div>
+        </div>
+            </div>
+             {% endblock %}

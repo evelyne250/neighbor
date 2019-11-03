@@ -13,7 +13,8 @@ def welcome(request):
 def hoods(request):
      new = NeighbourHood.objects.all()
      newpost = Post.objects.all()
-     return render(request, 'all.html', {"new": new, "newpost":newpost})   
+     business = Business.objects.all()
+     return render(request, 'all.html', {"new": new, "newpost":newpost, "business":business})   
 def create_hood(request):
     if request.method == 'POST':
         form = NeighborForm(request.POST, request.FILES)
@@ -45,30 +46,16 @@ def new_post(request):
 def new_business(request):
     current_user = request.user
     if request.method == 'POST':
-        form = BusinessForm(request.POST, request.FILES)
-        if form.is_valid():
-            bus = form.save(commit=False)
+        form1 = BusinessForm(request.POST, request.FILES)
+        if form1.is_valid():
+            bus = form1.save(commit=False)
             bus.user = current_user
             bus.save()
-        return redirect('new-business')
+        return redirect('hood')
 
     else:
-        form = BusinessForm()
-    return render(request, 'new_business.html', {"form": form})
-
-
-def join_hood(request, id):
-    neighbourhood = get_object_or_404(NeighbourHood, id=id)
-    request.user.neighbourhood = neighbourhood
-    request.user.save()
-    return redirect('hood')
-
-
-def leave_hood(request, id):
-    hood = get_object_or_404(NeighbourHood, id=id)
-    request.user.neighbourhood = None
-    request.user.save()
-    return redirect('hood')
+        form1 = BusinessForm()
+    return render(request, 'new_business.html', {"form1": form1})
 
 
 @login_required(login_url='/accounts/login/')
