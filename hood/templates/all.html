@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+{% load bootstrap3 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+
+
+<div class="container">
+    <div class="row">
+       
+                {% for item in newpost%}
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+  
+                        <div class="thumbnail">
+                <p  class="text-center" >{{item.title}}</p>
+              <p class="text-center">{{item.post|truncatechars:30}}</p>
+        
+             
+            </div>    
+              </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endblock %}

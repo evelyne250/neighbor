@@ -9,7 +9,11 @@ def welcome(request):
     date = dt.date.today()
     new = NeighbourHood.objects.all()
     return render(request, 'welcome.html', {"date": date, "new": new})
-    
+
+def hoods(request):
+     new = NeighbourHood.objects.all()
+     newpost = Post.objects.all()
+     return render(request, 'all.html', {"new": new, "newpost":newpost})   
 def create_hood(request):
     if request.method == 'POST':
         form = NeighborForm(request.POST, request.FILES)
@@ -23,6 +27,7 @@ def create_hood(request):
     return render(request, 'hood.html', {'form': form})
 @login_required(login_url='/accounts/login/')
 def new_post(request):
+    newpost = Post.objects.all()
     current_user = request.user
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -30,11 +35,11 @@ def new_post(request):
             post = form.save(commit=False)
             post.user = current_user
             post.save()
-        return redirect('new-post')
+        return redirect('hood')
 
     else:
         form = PostForm()
-    return render(request, 'new_post.html', {"form": form})
+    return render(request, 'new_post.html', {"form": form, "newpost": newpost})
 
 @login_required(login_url='/accounts/login/')
 def new_business(request):
