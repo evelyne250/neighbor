@@ -20,3 +20,59 @@ class ProfileTestClass(TestCase):
     def tearDown(self):
         Profile.objects.all().delete()
        
+
+class Neighbourhood(TestCase):
+    '''
+    Test case for the Neighbourhood class
+    '''
+
+    def setUp(self):
+        '''
+        Method that creates an instance of Profile class
+        '''
+        # Create a Image instance
+        self.new_Image = Image(
+            caption='Python eve is Muriuki who wrote Python content for Moringa School')
+
+    def test_instance(self):
+        '''
+        Test case to check if self.new_Image in an instance of Image class
+        '''
+        self.assertTrue(isinstance(self.new_Image, Image))
+
+
+
+
+class Post(TestCase):
+    '''
+    Test case for the Comment class
+    '''
+
+    def setUp(self):
+        '''
+        Method that creates an instance of Comment class
+        '''
+        # Create a Comment instance
+        self.new_comment = Comment(
+            comment_content='Python eve is Muriuki who wrote Python content for Moringa School')
+
+    def test_instance(self):
+        '''
+        Test case to check if self.new_comment in an instance of Comment class
+        '''
+        self.assertTrue(isinstance(self.new_comment, Comment))
+
+
+
+
+
+class Business(self):
+
+    @classmethod
+    def get_specific_bus(cls,id):
+        '''
+        fetches particular hooddeletes an exiting neighborhood
+        '''
+        business = cls.objects.filter(id=id)
+        return business
+
