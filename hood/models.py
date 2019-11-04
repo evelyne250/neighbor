@@ -11,6 +11,13 @@ class NeighbourHood(models.Model):
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def get_specific_hood(cls,id):
+        hood = cls.objects.get(id=id)
+        return hood
+
+
     def save_hood(self):
         self.save()
 
@@ -54,6 +61,10 @@ class Business(models.Model):
     description = models.TextField(blank=True)
     # neighbourhood = models.ForeignKey(NeighbourHood, on_delete=models.CASCADE, related_name='business')
     # user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='owner')
+    @classmethod
+    def get_specific_bus(cls,id):
+        bus = cls.objects.get(id=id)
+        return bus
 
 class Comment(models.Model):
     posted_by=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
